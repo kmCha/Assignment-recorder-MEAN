@@ -21,7 +21,7 @@ router.post('/signup', function(req, res, next) {
 				});
 			}
 			else {									//数据库中有了提交的帐号（帐号被注册了）
-				user.msg = "帐号已被注册, 你以为只有你会想到这个帐号？";
+				user = {msg : "帐号已被注册, 你以为只有你会想到这个帐号？"};
 				user.status = "fail";
 				res.json(user);
 			}
@@ -49,13 +49,13 @@ router.post('/login', function(req, res) {
 				res.json(user);
 			}
 			else{  			//密码不正确
-				user.status = "fail";
+				user = {status : "fail"};
 				user.msg = "密码不正确";
 				res.json(user);
 			}
 		}
 		else{    			//用户不存在
-			user.status = "fail";
+			user={ status : "fail"};
 			user.msg = "用户不存在啊，先注册朋友";
 			res.json(user);
 		}
