@@ -59,7 +59,7 @@ router.post('/login', function(req, res) {
 			}
 		}
 		else{    			//用户不存在
-			user.status = "fail";
+			user={"status" : "fail"};
 			user.msg = "用户不存在啊，先注册朋友";
 			res.json(user);
 		}
