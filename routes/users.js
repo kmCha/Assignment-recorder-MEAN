@@ -1,21 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
-
-var monk = require('monk');
-var db = monk('localhost:27017/assignments');
+var Users = require('../config/userModel.js');
 
 router.post('/signup', function(req, res, next) {
-	var collection = db.get('user');
 	if (req.body.password1 == req.body.password2) {    //两次密码相同
-		collection.findOne({
+		Users.findOne({
 			name: req.body.name
 		}, function(err, user) {
 			if (!user) {								//数据库中没有提交的账号
 				var shasum = crypto.createHash('sha1');							//sha1不可逆加密密码然后再保存
 				shasum.update(req.body.password1);
 				var password = shasum.digest('hex');
-				collection.insert({					//插入数据库
+				Users.create({					//插入数据库
 					name: req.body.name,
 					password: password
 				}, function(err, user) {
@@ -37,8 +34,7 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.post('/login', function(req, res) {
-	var collection = db.get('user');
-	collection.findOne({					//检查数据库中帐号存不存在
+	Users.findOne({					//检查数据库中帐号存不存在
 		name: req.body.name
 	}, function(err, user) {
 		if (err) throw err;
@@ -63,7 +59,6 @@ router.post('/login', function(req, res) {
 			user.msg = "用户不存在啊，先注册朋友";
 			res.json(user);
 		}
-		// res.json(user);
 	});
 });
 

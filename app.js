@@ -6,14 +6,16 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/assignments');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var assignments = require('./routes/assignments.js');
 var router = express.Router();
 
-var monk = require('monk');
-var db = monk('localhost:27017/assignments');
+// var monk = require('monk');
+// var db = monk('localhost:27017/assignments');
 var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -46,7 +48,6 @@ app.use(session({
 app.use('/', routes);
 app.use('/api/users', users);
 app.use('/api/assignments', assignments);
-
 
 // /* GET users listing. */
 // router.post('/api/users/signup', function(req, res, next) {

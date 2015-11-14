@@ -1,13 +1,10 @@
 var express = require('express');
 var router = express.Router();
-
-var monk = require('monk');
-var db = monk('localhost:27017/assignments');
+var Assignments = require('../config/assignmentModel.js');
 
 router.get('/', function(req, res) {					//get作业
-    var collection = db.get('assignment');
-    if (req.session.name) {     		//有session name，即用户登陆了之后的情况
-	    collection.find( {user : req.session.name}, function(err, assignments){
+    if (req.session.name) {     		//有session name，即用户登陆了之后的情况，然后获取对应的assignments
+	    Assignments.find( {user : req.session.name}, function(err, assignments){
 	        if (err) throw err;
 	        res.json(assignments);
 	    });
@@ -19,8 +16,7 @@ router.get('/', function(req, res) {					//get作业
 });
 
 router.post('/', function(req, res){					//添加作业
-    var collection = db.get('assignment');
-    collection.insert({
+    Assignments.create({
         title: req.body.title,
         code: req.body.code,
         description: req.body.description,
@@ -33,8 +29,7 @@ router.post('/', function(req, res){					//添加作业
 });
 
 router.get('/:id', function(req, res) {
-    var collection = db.get('assignment');
-    collection.findOne({ _id: req.params.id }, function(err, assignment){
+    Assignments.findOne({ _id: req.params.id }, function(err, assignment){
         if (err) throw err;
 
       	res.json(assignment);
@@ -42,8 +37,7 @@ router.get('/:id', function(req, res) {
 });
 
 router.put('/:id', function(req, res){
-    var collection = db.get('assignment');
-    collection.update({
+    Assignments.update({
         _id: req.params.id
     },
     {
@@ -61,8 +55,7 @@ router.put('/:id', function(req, res){
 
 
 router.delete('/:id', function(req, res){
-    var collection = db.get('assignment');
-    collection.remove({ _id: req.params.id }, function(err, assignment){
+    Assignments.remove({ _id: req.params.id }, function(err, assignment){
         if (err) throw err;
 
         res.json(assignment);
