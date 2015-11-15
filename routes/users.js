@@ -63,9 +63,19 @@ router.post('/login', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-	req.session.cookie.expires = new Date(Date.now());        //将
+	req.session.cookie.expires = new Date(Date.now());        //将session销毁，就销毁了登陆状态
 	var msg = {msg: "注销成功"};
 	res.json(msg);
+});
+
+router.get('/', function(req, res) {
+	if (req.session.name) {											//如果有session（也就是说有人登陆），那么返回登陆的用户名给angular app
+		res.json({username: req.session.name});
+	}
+	else{
+		var msg = {msg: "没登陆"};
+		res.json(msg);
+	}
 });
 
 module.exports = router;

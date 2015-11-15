@@ -5,3 +5,11 @@ body {
 a {
   color: #00B7FF;
 }
+.navbar-brand {
+	position: relative;
+	z-index: 1;
+	height: 100%;
+	/*width: 200px;*/
+	padding: 2px 2px 2px 100px;
+	margin: 2px 2px 2px 50px;
+}

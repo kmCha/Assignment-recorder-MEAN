@@ -31,32 +31,36 @@ app.config(['$routeProvider', function($routeProvider) {
         });
 }]);
 
-app.controller('HomeCtrl', ['$scope', '$resource', '$location', '$window',
-    function($scope, $resource, $location, $window) {
+app.controller('HomeCtrl', ['$scope', '$resource', '$location', '$window', '$rootScope',
+    function($scope, $resource, $location, $window, $rootScope) {
         $scope.status = false;
         $scope.firstStatus = false;
         var Assignments = $resource('/api/assignments');
         Assignments.query(function(assignments) {
-            // alert(assignments);
-                if(assignments.length === 0){                  //用户第一次登陆，数据库中没有用户的作业记录
-                    // alert("欢迎来到Assignment Recorder，点击添加作业新增无穷无尽的作业吧");
-                    $scope.firstStatus = true;
-                }
-                else if(assignments[0].msg){            //用户没登陆，返回的msg，见assignments.js
-                    $scope.msg = assignments[0].msg;
-                    $scope.status = true;
-                }
-                else{                       //非第一次登陆，返回作业
-                    $scope.assignments = assignments;
-                    $scope.order = 'date';
-                    $scope.status = false;
+            if(assignments.length === 0){                  //用户第一次登陆，数据库中没有用户的作业记录
+                // alert("欢迎来到Assignment Recorder，点击添加作业新增无穷无尽的作业吧");
+                $scope.firstStatus = true;
+            }
+            else if(assignments[0].msg){            //用户没登陆，返回的msg，见assignments.js
+                $scope.msg = assignments[0].msg;
+                $scope.status = true;
+            }
+            else{                       //非第一次登陆，返回作业
+                $scope.assignments = assignments;
+                $scope.order = 'date';
+                $scope.status = false;
+            }
+        });
+        var User = $resource('/api/users');                             //检查目前有没有用户登陆
+        User.get(function(user) {
+            if(!user.msg) {                                 //有的话就把根作用域的username设为传回来的username（见users.js）
+                $rootScope.username = user.username;
             }
         });
         $scope.logout = function(){
             var Logout = $resource('/api/users/logout');
             Logout.get(function(res){
                 alert(res.msg);
-                // $location.path('/');
                 $window.location.reload();              //注销完刷新页面
             });
         };
@@ -139,8 +143,8 @@ app.controller('SignupCtrl', ['$scope', '$resource', '$location',
 ]);
 
 
-app.controller('LoginCtrl', ['$scope', '$resource', '$location',
-    function($scope, $resource, $location) {
+app.controller('LoginCtrl', ['$scope', '$resource', '$location', '$rootScope',
+    function($scope, $resource, $location, $rootScope) {
         $scope.login = function() {
             var Users = $resource('/api/users/login');
             Users.save($scope.user, function(users) {
@@ -148,6 +152,7 @@ app.controller('LoginCtrl', ['$scope', '$resource', '$location',
                     alert(users.msg);
                 }
                 else{
+                    $rootScope.username = users.name;
                     alert("欢迎回来：" + users.name);
                     $location.path('/');
                 }
