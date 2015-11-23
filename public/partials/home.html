@@ -1,78 +1,145 @@
 
-
-
-
-
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#"><img alt="Brand" src="../images/kmcha.png" height="43.111" width="66.67"></a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="/#/add-assignment" ng-hide="status"><span class="glyphicon glyphicon-duplicate"></span> 添加作业</a></li>
-        <li><a href="/#/login" ng-show="status">登录</a></li>
-        <li><a href="/#/signup" ng-show="status">注册</a></li>
-      </ul>
-      <form class="navbar-form navbar-left" role="search" ng-hide="status">
-        <div class="form-group">
-        	<div class="input-group">
-        		<div class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>
-          	<input type="text" ng-model="query" class="form-control" placeholder="查找">
-          </div>
-        </div>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-      	<li><a ng-hide="status">雷猴啊 <b>{{username}}</b></a></li>
-        <li><a href="/#/" class="" ng-click="logout()" ng-hide="status">注销</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-
-
-
-
-<div class="row">
-	<div class="col-sm-6 col-sm-offset-3">
-		<table class="table table-striped" ng-hide="status">
-			<thead>
-				<tr>
-					<th class="text-center">课程代码</th>
-					<th class="text-center">课程名字</th>
-					<th class="text-center">截止日期</th>
-					<th class="text-center">作业描述</th>
-					<th class="text-center">编辑</th>
-					<th class="text-center">删除</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat='assignment in assignments | filter:query | orderBy:order'>
-						<th class="text-center">{{assignment.code}}</th>
-						<th class="text-center">{{assignment.title}}</th>
-						<th class="text-center">{{assignment.date}}</th>
-						<th class="text-center">
-								<a popover-animation="true" uib-popover="{{assignment.description}}"><i class="glyphicon glyphicon-info-sign"></i></a>
-						</th>
-						<th class="text-center"><a href="/#/assignments/{{assignment._id}}"><i class="glyphicon glyphicon-edit"></i></a></th>
-						<th class="text-center"><a href="/#/assignments/delete/{{assignment._id}}"><i class="glyphicon glyphicon-remove"></i></a></th>
-				</tr>
-			</tbody>
-		</table>
-		<h2 ng-show="firstStatus"><b>{{username}}</b>, 欢迎来到Assignment Recorder，点击添加作业新增无穷无尽的作业吧</h2>
-		<input type="hidden" ng-model="status">							<!-- status是登陆状态，true为未登陆，false为已登陆 -->
-		<input type="hidden" ng-model="firstStatus">				<!-- firstStatus是首次登陆状态，true为第一次登陆，false为非第一次登陆（有作业记录） -->
-		<h1 ng-show="status">{{msg}}</h1>
+<!-- 登陆加载页面 -->
+<div class='process processHide' style='height: {{height}}px; width: {{width}}px;'>
+	<div class="row">
+		<div class="col-xs-2 col-xs-offset-5">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<img src="../images/process1.png" class="img-responsive">
+					<img src="../images/process2.png" class="img-responsive">
+					<img src="../images/process3.png" class="img-responsive">
+					<img src="../images/process4.png" class="img-responsive">
+					<img src="../images/process5.png" class="img-responsive">
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
+</div> <!-- 加载页面 -->
 
+<!-- navbar：也就是header -->
+<nav class="navbar-fixed-top navbar-default hide">
+	<div class="container-fluid">
+	  <!-- Brand and toggle get grouped for better mobile display -->
+	  <div class="navbar-header">
+	    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	      <span class="sr-only">Toggle navigation</span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </button>
+	    <a class="navbar-brand" href="/#/">Assignment Recorder</a>
+	    <!-- <a class="navbar-brand" href="/#/"><img alt="Brand" src="../images/km-logo-white.png"></a> -->
+	  </div>
+
+	  <!-- Collect the nav links, forms, and other content for toggling -->
+	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	    <ul class="nav navbar-nav">
+	    	<li><a href="" ng-click="openAdd()" ng-hide="status"><span class="glyphicon glyphicon-duplicate"></span><b> 添加作业</b></a></li>
+	      <li><a href="/#/" ng-show="status" ng-click="openLogin()"><b>登录</b></a></li>
+	      <li><a href="/#/" ng-show="status" ng-click="openSignup()"><b>注册</b></a></li>
+	    </ul>
+	    <form class="navbar-form navbar-left" role="search" ng-hide="status">
+	      <div class="form-group">
+	      	<div class="input-group">
+	      		<div class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>
+	        	<input type="text" ng-model="query" class="form-control form-control-nav" placeholder="直接输入关键字">
+	        </div>
+	      </div>
+	    </form>
+	    <ul class="nav navbar-nav navbar-right">
+	    	<li>
+	    		<a href="/#/profile/{{username}}" class="noLink" ng-hide="status">
+	    			<img ng-src="../uploads/avatars/{{username}}.jpg" alt="profile" height="40px" width="40px">
+	    			<b>{{username}}</b>
+	    		</a>
+	    	</li>
+	    	<li><a href="/#/" class="" ng-click="logout()" ng-hide="status"><b>注销</b></a></li>
+	    	<li><img class="navbar-brand navbar-brand-img" src="../images/km-logo-white.png"></li>
+	    </ul>
+	  </div><!-- /.navbar-collapse -->
+	</div>
+</nav> <!-- nav（标签不写着嘛） -->
+
+
+
+
+<div class="container-fluid hide">
+	<!-- 没登陆的页面 -->
+	<div class="row" ng-show="status">
+		<!-- welcome -->
+		<div class="welcome" style='height: {{height-50}}px;'>
+			<div class="notebook col-xs-6 col-xs-offset-3">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<img src="../images/logo-notebook.png" class="img-responsive">
+					</div>
+				</div>
+			</div>   <!-- notebook -->
+			<div class="title col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+				<img src="../images/Assignrecor.png" class="img-responsive">
+			</div>  <!-- title -->
+			<div class="col-xs-12 glyphiconBox">
+				<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+			</div>  <!-- 箭头 -->
+	</div> <!-- welcome -->
+	<!-- info -->
+	<div class="info" style="height: {{height-50}}px;">
+			<div class="col-md-12">
+				<h1 ng-show="status" class="aaa">先登录才能添加作业哦</h1>
+				<input type="checkBox" ng-model="status">
+			</div>
+	</div>  <!-- info -->
+
+	</div>  <!-- 没登陆的页面 -->
+	<!-- 登陆之后的页面 -->
+	<div class="row" ng-hide="status">
+		<div class="mainArea">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="assignmentContainer row" style="min-height: {{height-50}}px;">
+
+					<div class="col-md-6 assignment-fade" ng-repeat='assignment in assignments | filter:query | orderBy:"-date"'>
+						<div class="assignments">
+							<a ng-href="../uploads/files/{{username}}/{{assignment._id}}.pdf" class="downloadAssignment"><i class="glyphicon glyphicon-download"></i></a>
+							<a class="removeAssignment" ng-click="openDelete(assignment._id)"><i class="glyphicon glyphicon-remove"></i></a>
+							<a class="editAssignment" ng-click="openEdit(assignment._id, num, refresh)"><i class="glyphicon glyphicon-edit"></i></a>
+							<a class="infoAssignment" uib-tooltip="{{assignment.description}}" tooltip-popup-close-delay='1000' tooltip-class='tpClass'><i class="glyphicon glyphicon-info-sign"></i></a>
+							<div class="assignmentHeader">
+								<h3><b>{{assignment.code}}</b></h3>
+							</div>
+							<div class="row">
+								<div class="col-xs-8 col-xs-offset-2">
+									<div class="assignmentBody">
+										<p><b>{{assignment.title}}</b></p>
+									</div>
+								</div>
+							</div>
+							<div class="assignmentFooter">
+								<h3><b>{{assignment.date}}</b></h3>
+							</div>
+						</div>
+					</div>
+					<!-- 还没添加作业的提示页面 -->
+					<div class="col-md-6 col-md-offset-3" ng-show="firstStatus">
+						<h2><b>{{username}}</b>, 欢迎来到Assignment Recorder，点击添加作业新增无穷无尽的作业吧</h2>
+					</div>  <!-- 还没添加作业的提示页面 -->
+					<div class="col-xs-12 km-animate-fadeIn loadGroup" ng-hide="busy || noMore">
+						<a class="btn btn-cancel" ng-click="nextPage()">我还要更多！</a>
+					</div>
+					<div class="col-xs-12 loadGroup" ng-show="busy">
+						<!-- <i class="glyphicon glyphicon-refresh loadingAssignment"></i> -->
+						<img src="../images/loading.gif" height="45" width="45">
+					</div>
+					<div class="col-xs-12 km-animate-fadeIn loadGroup" ng-show="noMore">
+						<p>没有更多了朋友</p>
+					</div>
+				</div>    <!-- assignmentContainer -->
+			</div>
+		</div>   <!-- mainArea：登陆之后的页面 -->
+	</div>
+
+</div>        <!-- container-fluid -->
+
+
+<footer class="hide">
+	footer
+</footer>

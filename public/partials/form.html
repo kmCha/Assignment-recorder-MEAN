@@ -1,22 +1,33 @@
-<h1>添加作业</h1>
+<div class="modal-header">
+    <h4>添加作业</h4>
+</div>
 
-<form>
-    <div class="form-group">
-        <label>课程名:</label>
-        <input class="form-control" ng-model="assignment.title">
-    </div>
-    <div class="form-group">
-        <label>课程代码:</label>
-        <input class="form-control" ng-model="assignment.code">
-    </div>
-    <div class="form-group">
-        <label>作业描述:</label>
-        <textarea class="form-control" ng-model="assignment.description"></textarea>
-    </div>
-    <div class="form-group">
-        <label>截止日期:</label>
-        <input type="date" class="form-control" ng-model="assignment.date">
-    </div>
-    <input type="button" class="btn btn-primary" value="添加" ng-click="save()">
-    <a type="button" class="btn btn-default" href="/#/">取消</a>
-</form>
+<div class="modal-body">
+	<form name="fileForm">
+	    <div class="form-group">
+	        <label>课程名:</label>
+	        <input class="form-control" ng-model="assignment.title">
+	    </div>
+	    <div class="form-group">
+	        <label>课程代码:</label>
+	        <input class="form-control" ng-model="assignment.code">
+	    </div>
+	    <div class="form-group">
+	        <label>作业描述:</label>
+	        <textarea class="form-control" ng-model="assignment.description"></textarea>
+	    </div>
+	    <div class="form-group">
+	        <label>截止日期:</label>
+	        <input type="date" class="form-control" ng-model="assignment.date">
+	    </div>
+			<div class="form-group">
+	        <label>作业文件:</label>
+					<input type="file" name="file" ngf-select ng-model="assiFile" accept="application/pdf" ngf-max-size="2MB" required>
+	    </div>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<input type="button" class="btn btn-submit" value="添加" ng-click="save(assiFile)">
+	<a type="button" class="btn btn-cancel" ng-click="cancel()">取消</a>
+</div>

@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
 var Users = require('../config/userModel.js');
+var Profiles = require('../config/profileModel.js');
+var fs = require('fs');
 
 router.post('/signup', function(req, res, next) {
 	if (req.body.password1 == req.body.password2) {    //两次密码相同
@@ -12,6 +14,23 @@ router.post('/signup', function(req, res, next) {
 				var shasum = crypto.createHash('sha1');							//sha1不可逆加密密码然后再保存
 				shasum.update(req.body.password1);
 				var password = shasum.digest('hex');
+				var dir = './public/uploads/files/'+req.body.name;						//创建用户上传目录
+				fs.mkdir(dir);
+				var readStream = fs.createReadStream('./public/uploads/avatars/default.jpg');
+				var writeStream = fs.createWriteStream('./public/uploads/avatars/' + req.body.name + '.jpg');
+				readStream.pipe(writeStream);
+				readStream.on('end', function () {
+				 console.log('copy end');
+				});
+				readStream.on('error', function () {
+				 console.log('copy error');
+				});
+				Profiles.create({							//插入用户profile
+					username: req.body.name,
+					gender: '',
+					school: '',
+					major: ''
+				});
 				Users.create({					//插入数据库
 					name: req.body.name,
 					password: password
@@ -64,6 +83,8 @@ router.post('/login', function(req, res) {
 
 router.get('/logout', function(req, res) {
 	req.session.cookie.expires = new Date(Date.now());        //将session销毁，就销毁了登陆状态
+	req.session.destroy(function(err){
+	});
 	var msg = {msg: "注销成功"};
 	res.json(msg);
 });

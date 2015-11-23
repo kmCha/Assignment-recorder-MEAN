@@ -1,4 +1,12 @@
-<h1>{{assignmet.code}}</h1>
-<p>{{assignment.description}}</p>
-<input type="button" value="确定删除" class="btn btn-danger" ng-click="delete()" />
-<a class="btn btn-default" href="/#/">不不不，按错了</a>
+<div class="modal-header">
+    <h4>删除作业</h4>
+</div>
+
+<div class="modal-body">
+	<p>点击确定删除即可立即删除该作业，对应的pdf文档也会被永久删除</p>
+</div>
+
+<div class="modal-footer">
+	<input type="button" value="确定删除" class="btn btn-submit" ng-click="delete()" />
+	<input type="button" value="不不不，按错了" class="btn btn-cancel" ng-click="cancel()">
+</div>

@@ -1,18 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var Assignments = require('../config/assignmentModel.js');
+var fs = require('fs');
 
-router.get('/', function(req, res) {					//get作业
-    if (req.session.name) {     		//有session name，即用户登陆了之后的情况，然后获取对应的assignments
-	    Assignments.find( {user : req.session.name}, function(err, assignments){
+router.get('/:num', function(req, res) {					//get作业
+	    Assignments.find( {user : req.session.name}).limit(req.params.num).exec(function(err, assignments){
 	        if (err) throw err;
 	        res.json(assignments);
 	    });
-    }
-    else{
-    	var msg = [{msg:"先登录才能添加作业哦"}];
-    	res.json(msg);
-    }
 });
 
 router.post('/', function(req, res){					//添加作业
@@ -28,7 +23,7 @@ router.post('/', function(req, res){					//添加作业
     });
 });
 
-router.get('/:id', function(req, res) {
+router.get('/edit/:id', function(req, res) {
     Assignments.findOne({ _id: req.params.id }, function(err, assignment){
         if (err) throw err;
 
@@ -36,7 +31,7 @@ router.get('/:id', function(req, res) {
     });
 });
 
-router.put('/:id', function(req, res){
+router.put('/edit/:id', function(req, res){
     Assignments.update({
         _id: req.params.id
     },
@@ -54,13 +49,13 @@ router.put('/:id', function(req, res){
 });
 
 
-router.delete('/:id', function(req, res){
+router.delete('/delete/:id', function(req, res){
     Assignments.remove({ _id: req.params.id }, function(err, assignment){
+    		fs.unlink('./public/uploads/files/'+req.session.name+ '/' +req.params.id+'.pdf');
         if (err) throw err;
 
         res.json(assignment);
     });
 });
-
 
 module.exports = router;

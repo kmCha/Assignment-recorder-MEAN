@@ -11,11 +11,10 @@ mongoose.connect('mongodb://localhost/assignments');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var assignments = require('./routes/assignments.js');
-var router = express.Router();
+var assignments = require('./routes/assignments');
+var profiles = require('./routes/profiles');
+var uploads = require('./routes/uploads');
 
-// var monk = require('monk');
-// var db = monk('localhost:27017/assignments');
 var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,35 +35,8 @@ require('./config/session')(app);
 app.use('/', routes);
 app.use('/api/users', users);
 app.use('/api/assignments', assignments);
-
-// /* GET users listing. */
-// router.post('/api/users/signup', function(req, res, next) {
-//   var collection = db.get('user');
-//   collection.insert({
-//     name: req.body.name,
-//     password: req.body.password1
-//   }, function(err, user) {
-//     if (err) throw err;
-//     res.json(user);
-//   });
-// });
-
-// router.post('/api/users/login', function(req, res) {
-//   var collection = db.get('user');
-//   collection.findOne({
-//     name: req.body.name
-//   }, function(err, user) {
-//     if (err) throw err;
-//     if (user) {
-//      res.json(user);
-
-//     }
-//   });
-// });
-
-// app.use('/', router);
-
-
+app.use('/api/profiles', profiles);
+uploads(app);
 
 
 
