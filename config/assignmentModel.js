@@ -4,7 +4,8 @@ var assignmentSchema = mongoose.Schema({
   code: String,
   description: String,
   date: String,
-  user: String
+  user: String,
+  submit: {type: Boolean, default: false}
 });
 
 

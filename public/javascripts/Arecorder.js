@@ -3,6 +3,10 @@ var app = angular.module('Arecorder', ['ngResource', 'ngRoute', 'ui.bootstrap', 
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/', {
+            templateUrl: 'partials/index.html',
+            controller: 'IndexCtrl'
+        })
+        .when('/home', {
             templateUrl: 'partials/home.html',
             controller: 'HomeCtrl'
         })
@@ -35,6 +39,15 @@ app.config(['$routeProvider', function($routeProvider) {
         });
 }]);
 
+app.controller('IndexCtrl', ['$scope', '$resource', '$location', '$window', '$rootScope', '$uibModal', '$timeout',
+    function($scope, $resource, $location, $window, $rootScope, $uibModal, $timeout) {
+        $scope.height = $window.innerHeight;            //读取浏览器窗口高度
+        $scope.width = $window.innerWidth;               //宽度
+        $timeout(function(){                                    //用户没登陆的话显示4s加载页面
+            $location.path('/home');
+        }, 4000);
+    }]);
+
 app.controller('HomeCtrl', ['$scope', '$resource', '$location', '$window', '$rootScope', '$uibModal', '$timeout',
     function($scope, $resource, $location, $window, $rootScope, $uibModal, $timeout) {
         // alert('aa');
@@ -42,7 +55,7 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$location', '$window', '$roo
         var step = 2;                               //点击加载的数量
         $scope.height = $window.innerHeight;            //读取浏览器窗口高度
         $scope.width = $window.innerWidth;               //宽度
-        $scope.status = false;                            //登陆状态  false为登陆了，true为没登陆
+        $scope.status = true;                            //登陆状态  false为登陆了，true为没登陆，默认没登陆
         $scope.firstStatus = false;                     //是否添加过作业
         $scope.assignments = [];
         var User = $resource('/api/users');                             //检查目前有没有用户登陆
@@ -53,28 +66,20 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$location', '$window', '$roo
                 //     'infinite-scroll-disabled': 'busy'
                 // });
                 // $scope.busy = false;
-                angular.element('.hide').removeClass('hide');               //用户登陆了的话就显示主页面
-                // angular.element('.process').addClass('hide');
                 $rootScope.username = user.username;
                 $scope.refresh();                                  //获取作业
+                $scope.status = false;
             }
             else{                                                               //没登陆
                 // $scope.processStatus = true;                        //加载页面状态
                 // $scope.busy = true;                 //禁用加载按钮
-                $scope.status = true;
-                angular.element('.processHide').removeClass('processHide');
-                $timeout(function(){                                    //用户没登陆的话显示4s加载页面
-                    // $scope.processStatus = false;
-                    angular.element('.process').addClass('processHide');
-                    angular.element('.hide').removeClass('hide');
-                }, 4000);
             }
         });
         $scope.logout = function(){
             var Logout = $resource('/api/users/logout');
             Logout.get(function(res){
                 alert(res.msg);
-                $window.location.reload();              //注销完刷新页面
+                $location.path('/');              //注销完刷新页面
             });
         };
         $scope.openLogin = function () {
@@ -126,8 +131,14 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$location', '$window', '$roo
               templateUrl: 'partials/form.html',
               controller: 'AddAssignmentCtrl'
             });
-            modalInstance.result.then(function () {
-                $scope.refresh();
+            modalInstance.result.then(function (msg) {
+                if(msg == 'redirect'){
+                    alert('你都还没登陆添加啥作业！');
+                    $scope.openLogin();
+                }
+                else {
+                    $scope.refresh();
+                }
             }, function () {
             });
         };
@@ -144,6 +155,32 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$location', '$window', '$roo
                 }, 2000);
                 }
                 else{                       //返回作业
+                    for (i=0; i<assignments.length; i++)
+                    {
+                        var date = assignments[i].date.split('-');
+                        var year = date[0];
+                        var month = date[1];
+                        var day = date[2];
+                        var today = new Date();
+                        if (year < today.getFullYear())         //作业的duedate的年早于今天所在的年份
+                        {
+                            assignments[i].submit = true;
+                        }
+                        else if (year == today.getFullYear())       //duedate和今天同年
+                        {
+                            if (month < today.getMonth()+1)             //duedate的月份小于今天所在的月份
+                            {
+                                assignments[i].submit = true;
+                            }
+                            else if (month == today.getMonth()+1)           //duedate和今天同月
+                            {
+                                if (day < today.getDate())                  //duedate所在的日期比今天早
+                                {
+                                    assignments[i].submit = true;
+                                }
+                            }
+                        }
+                    }
                     $scope.assignments = assignments;
                 }
                 $scope.busy = false;
@@ -154,9 +191,37 @@ app.controller('HomeCtrl', ['$scope', '$resource', '$location', '$window', '$roo
             Assignments.query({ num : num},function(assignments) {       //从数据库获取作业
                 if(assignments.length === 0){                  //用户第一次登陆，数据库中没有用户的作业记录
                     $scope.firstStatus = true;
+                    $('.assignmentContainer').addClass('center');
                 }
                 else{
+                    for (i=0; i<assignments.length; i++)
+                    {
+                        var date = assignments[i].date.split('-');
+                        var year = date[0];
+                        var month = date[1];
+                        var day = date[2];
+                        var today = new Date();
+                        if (year < today.getFullYear())         //作业的duedate的年早于今天所在的年份
+                        {
+                            assignments[i].submit = true;
+                        }
+                        else if (year == today.getFullYear())       //duedate和今天同年
+                        {
+                            if (month < today.getMonth()+1)             //duedate的月份小于今天所在的月份
+                            {
+                                assignments[i].submit = true;
+                            }
+                            else if (month == today.getMonth()+1)           //duedate和今天同月
+                            {
+                                if (day < today.getDate())                  //duedate所在的日期比今天早
+                                {
+                                    assignments[i].submit = true;
+                                }
+                            }
+                        }
+                    }
                     $scope.assignments = assignments;
+                    $('.assignmentContainer.center').removeClass('center');
                     // console.log(assignments);
                 }
             });
@@ -178,12 +243,12 @@ app.controller('ProfileCtrl', ['$scope', '$resource', '$routeParams', '$location
             Profile.get({
                 username : $routeParams.username
             }, function(profile){
-                if(!profile.status){
+                if(!profile.msg){
                     $scope.profile = profile;
                 }
                 else {
-                    alert('先登录');
-                    $location.path('/');
+                    alert(profile.msg);
+                    $location.path('/#/home');
                 }
             });
         };
@@ -258,20 +323,30 @@ app.controller('AddAssignmentCtrl', ['$scope', '$resource', '$location', '$uibMo
         $scope.save = function(file) {
             var Assignments = $resource('/api/assignments');
             Assignments.save($scope.assignment, function(assignment) {
-                if(file){
-                    file.upload = Upload.upload({  //ng-file-upload模块
-                      url: '/upload/file',
-                      data: {fileId: assignment._id, file: file}
-                    })
-                    .then(function (resp) {
-                        //上传文件成功
-                        if (resp.data.status === "success") {
-                            //文件更新成功
-                            $uibModalInstance.close('success');
-                        }
-                    });
+                if(!assignment.msg){            //用户登录了
+                    if(file){                   //登录了且添加了文件
+                        file.upload = Upload.upload({  //ng-file-upload模块
+                          url: '/upload/file',
+                          data: {fileId: assignment._id, file: file}
+                        })
+                        .then(function (resp) {
+                            //上传文件成功
+                            if (resp.data.status === "success") {
+                                //文件更新成功
+                                $uibModalInstance.close('success');
+                            }
+                            else {
+                                alert('文件上传不成功，请重试');
+                            }
+                        });
+                    }
+                    else {                         //登录了没添加文件
+                        $uibModalInstance.close('success');
+                    }
                 }
-                $uibModalInstance.close('success');
+                else{                           //用户没登陆
+                    $uibModalInstance.close('redirect');
+                }
             });
         };
         $scope.cancel = function () {
@@ -294,7 +369,30 @@ app.controller('EditAssignmentCtrl', ['$scope', '$resource', '$location', '$root
         Assignments.get({
             id: $rootScope.id
         }, function(assignment) {
-            var date = new Date(assignment.date.split('-')[0], assignment.date.split('-')[1]-1, assignment.date.split('-')[2]);               //将存在mongodb中的字符串形式的date转换成Date对象传递给model
+            var date = assignment.date.split('-');
+            var year = date[0];
+            var month = date[1];
+            var day = date[2];
+            var today = new Date();
+            if (year < today.getFullYear())         //作业的duedate的年早于今天所在的年份
+            {
+                assignment.submit = true;
+            }
+            else if (year == today.getFullYear())       //duedate和今天同年
+            {
+                if (month < today.getMonth()+1)             //duedate的月份小于今天所在的月份
+                {
+                    assignment.submit = true;
+                }
+                else if (month == today.getMonth()+1)           //duedate和今天同月
+                {
+                    if (day < today.getDate())                  //duedate所在的日期比今天早
+                    {
+                        assignment.submit = true;
+                    }
+                }
+            }
+            date = new Date(year, month-1, day);               //将存在mongodb中的字符串形式的date转换成Date对象传递给model
             assignment.date = date;
             $scope.assignment = assignment;
         });

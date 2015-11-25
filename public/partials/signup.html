@@ -14,25 +14,25 @@
         </div>
         <div class="form-group">
             <label>密码:</label>
-            <input type="password" class="form-control" ng-model="user.password1" name="password1" ng-minlength="8" ng-maxlength="15" required>
+            <input type="password" class="form-control" ng-model="user.password1" name="password1" ng-minlength="6" ng-maxlength="15" required>
             <p class="km-animate-fade" ng-show="myForm.password1.$dirty && myForm.password1.$invalid">
                 <span class="km-animate-fade pass1Animate" ng-show="myForm.password1.$error.required">密码是必须的</span>
                 <span class="km-animate-fade pass1Animate" ng-show="myForm.password1.$error.maxlength">密码长度超过15字符</span>
-                <span class="km-animate-fade pass1Animate" ng-show="myForm.password1.$error.minlength">密码长度最少8字符</span>
+                <span class="km-animate-fade pass1Animate" ng-show="myForm.password1.$error.minlength">密码长度最少6字符</span>
             </p>
         </div>
         <div class="form-group">
             <label>再输次密码呗:</label>
-            <input type="password" class="form-control" ng-model="user.password2" ng-blur="validatePass2()" name="password2" ng-minlength="8" ng-maxlength="15" required>
+            <input type="password" class="form-control" ng-model="user.password2" ng-blur="validatePass2()" name="password2" ng-minlength="6" ng-maxlength="15" required>
             <p class="km-animate-fade" ng-show="myForm.password2.$dirty && myForm.password2.$invalid">
                 <span class="km-animate-fade passAnimate" ng-show="myForm.password2.$error.required">密码是必须的</span>
                 <span class="km-animate-fade passAnimate" ng-show="myForm.password2.$error.maxlength">密码长度超过15字符</span>
-                <span class="km-animate-fade passAnimate" ng-show="myForm.password2.$error.minlength">密码长度最少8字符</span>
+                <span class="km-animate-fade passAnimate" ng-show="myForm.password2.$error.minlength">密码长度最少6字符</span>
             </p>
         </div>
     </form>
 </div>
 <div class="modal-footer">
     <input type="button" class="btn btn-submit" value="注册" ng-click="signup()" ng-disabled="myForm.name.$invalid || myForm.password1.$invalid || myForm.password2.$invalid || myForm.name.$pristine || myForm.password1.$pristine || myForm.password2.$pristine">
-    <a type="button" class="btn btn-cancel" href="/#/" ng-click="cancel()">取消</a>
+    <a type="button" class="btn btn-cancel" href="javascript:void(0);" ng-click="cancel()">取消</a>
 </div>

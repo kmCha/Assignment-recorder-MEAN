@@ -67,6 +67,12 @@ fieldset[disabled] a.btn {
   transition-timing-function: cubic-bezier(.61,1.92,.27,.33);
   border: 1px #7f7f7f solid;
 }
+@media (max-width: 768px) {
+  .btn-submit {
+    background-position: 0 -18px;
+    border: 1px #46d4f3 solid;
+  }
+}
 .btn-submit:focus,
 .btn-submit.focus {
 	background-position: 0 -18px;
@@ -135,6 +141,14 @@ fieldset[disabled] .btn-submit.active {
   transition: all 0.5s;
   transition-timing-function: cubic-bezier(.61,1.92,.27,.33);
 }
+@media (max-width: 768px) {
+  .btn-cancel {
+    color: #fff;
+    background-position: 0 -18px;
+    border: 1px #fff solid;
+  }
+}
+
 .btn-cancel:focus,
 .btn-cancel.focus {
   color: #fff;
@@ -192,6 +206,78 @@ fieldset[disabled] .btn-cancel.active {
   background-image: none;
 }
 .btn-cancel .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
+
+
+.btn-loading {
+  color: #fff;
+  border: 1px solid #fff;
+  background-color: transparent;
+  background-image: url(../images/module-bg-pink.png);
+  background-repeat: no-repeat;
+  background-position: -5px -51px;
+  transition: all 0.5s;
+  transition-timing-function: cubic-bezier(.61,1.92,.27,.33);
+}
+.btn-loading:focus,
+.btn-loading.focus {
+  color: #fff;
+  background-position: -5px -16px;
+  /*border: 1px solid #fff;*/
+}
+.btn-loading:hover {
+  color: #fff;
+  background-position: -5px -16px;
+  /*border: 1px solid #fff;*/
+}
+.btn-loading:active.btn:active,
+.btn-loading.active,
+.btn:active,
+.open > .dropdown-toggle.btn-loading {
+  background-image: url(../images/module-bg-pink.png);
+  color: #fff;
+  background-position: -5px -16px;
+  /*border: 1px solid #fff;*/
+}
+.btn-loading:active:hover,
+.btn-loading.active:hover,
+.open > .dropdown-toggle.btn-loading:hover,
+.btn-loading:active:focus,
+.btn-loading.active:focus,
+.open > .dropdown-toggle.btn-loading:focus,
+.btn-loading:active.focus,
+.btn-loading.active.focus,
+.open > .dropdown-toggle.btn-loading.focus {
+  color: #fff;
+  background-position: -5px -16px;
+  /*border: 1px solid #fff;*/
+}
+.btn-loading.disabled,
+.btn-loading[disabled],
+fieldset[disabled] .btn-loading,
+.btn-loading.disabled:hover,
+.btn-loading[disabled]:hover,
+fieldset[disabled] .btn-loading:hover,
+.btn-loading.disabled:focus,
+.btn-loading[disabled]:focus,
+fieldset[disabled] .btn-loading:focus,
+.btn-loading.disabled.focus,
+.btn-loading[disabled].focus,
+fieldset[disabled] .btn-loading.focus,
+.btn-loading.disabled:active,
+.btn-loading[disabled]:active,
+fieldset[disabled] .btn-loading:active,
+.btn-loading.disabled.active,
+.btn-loading[disabled].active,
+fieldset[disabled] .btn-loading.active {
+  color: #7f7f7f;
+  background-color: #bbb;
+  border-color: transparent;
+  background-image: none;
+}
+.btn-loading .badge {
   color: #337ab7;
   background-color: #fff;
 }

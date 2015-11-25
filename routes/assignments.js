@@ -4,13 +4,17 @@ var Assignments = require('../config/assignmentModel.js');
 var fs = require('fs');
 
 router.get('/:num', function(req, res) {					//get作业
-	    Assignments.find( {user : req.session.name}).limit(req.params.num).exec(function(err, assignments){
+	    Assignments.find( {user : req.session.name})
+	    .sort({date: -1})				//按日期倒序查询（最近的在最前面）
+	    .limit(req.params.num)		//限制返回个数
+	    .exec(function(err, assignments){
 	        if (err) throw err;
 	        res.json(assignments);
 	    });
 });
 
 router.post('/', function(req, res){					//添加作业
+	if(req.session.name){
     Assignments.create({
         title: req.body.title,
         code: req.body.code,
@@ -21,6 +25,12 @@ router.post('/', function(req, res){					//添加作业
         if (err) throw err;
         res.json(assignment);
     });
+  }
+  else{
+  	//先登录
+  	msg =  {msg: '先登录'};
+  	res.json(msg);
+  }
 });
 
 router.get('/edit/:id', function(req, res) {
@@ -40,7 +50,8 @@ router.put('/edit/:id', function(req, res){
         code: req.body.code,
         description: req.body.description,
         date: req.body.date.substr(0, 10),
-        user: req.session.name
+        user: req.session.name,
+        submit: req.body.submit
     }, function(err, assignment){
         if (err) throw err;
 
