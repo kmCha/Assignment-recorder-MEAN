@@ -3,9 +3,12 @@
 </div>
 <div class="modal-body">
     <form name="myForm" novalidate>
-        <div class="form-group">
+        <div class="form-group has-feedback">
             <label>用户名:</label>
-            <input class="form-control" ng-model="user.name" name="name" ng-minlength="8" ng-maxlength="12" required>
+            <input class="form-control" ng-blur="check()" ng-focus="removeStatus()" ng-model="user.name" name="name" ng-minlength="8" ng-maxlength="12" required>
+            <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <img class="ajax-loading form-control-feedback" src="../images/ajax-loading.gif">
             <p class="km-animate-fade" ng-show="myForm.name.$dirty && myForm.name.$invalid">
                 <span class="km-animate-fade nameAnimate" ng-show="myForm.name.$error.required">用户名是必须的</span>
                 <span class="km-animate-fade nameAnimate" ng-show="myForm.name.$error.maxlength">用户名长度超过12字符</span>

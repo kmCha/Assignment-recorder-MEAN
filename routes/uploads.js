@@ -7,7 +7,6 @@ var storageAvatar = multer.diskStorage({						//头像
     cb(null, './public/uploads/avatars');
   },
   filename: function (req, file, cb) {
-  	var ext = file.mimetype.split('/')[1];
     cb(null, req.session.name + '.jpg');
   }
 });
@@ -52,7 +51,7 @@ module.exports = function (app){
       return;
     }
     // console.log(req.file.mimetype);
-    console.log(req.body.fileId);
+    //console.log(req.body.fileId);
     var msg = { status: "success"};
     res.json(msg);
     // Everything went fine

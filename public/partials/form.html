@@ -5,11 +5,11 @@
 <div class="modal-body">
 	<form name="fileForm">
 	    <div class="form-group">
-	        <label>课程名<span style="color: #fe67c3;">(*)</span>:</label>
+	        <label>课程名<span style="color: #fff0f9;">(*)</span>:</label>
 	        <input class="form-control" ng-model="assignment.title" required>
 	    </div>
 	    <div class="form-group">
-	        <label>课程代码<span style="color: #fe67c3;">(*)</span>:</label>
+	        <label>课程代码<span style="color: #fff0f9;">(*)</span>:</label>
 	        <input class="form-control" ng-model="assignment.code" required>
 	    </div>
 	    <div class="form-group">
@@ -17,19 +17,19 @@
 	        <textarea class="form-control" ng-model="assignment.description"></textarea>
 	    </div>
 	    <div class="form-group">
-	        <label>截止日期<span style="color: #fe67c3;">(*)</span>:</label>
+	        <label>截止日期<span style="color: #fff0f9;">(*)</span>:</label>
 	        <input type="date" class="form-control" ng-model="assignment.date" required>
 	    </div>
 			<div class="form-group">
 	        <label>作业文件:</label>
 					<input type="file" name="file" ngf-select ng-model="assiFile" accept="application/pdf" ngf-max-size="2MB">
 	    </div>
-			<div class="form-group">
+<!-- 			<div class="form-group">
 	        <label>作业交了吗:</label>
 	        <label class="radio-inline">
 						<input type="checkbox" ng-model="assignment.submit">早就交了
 					</label>
-	    </div>
+	    </div> -->
 	</form>
 </div>
 

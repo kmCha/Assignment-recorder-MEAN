@@ -4,8 +4,9 @@ html(ng-app='Arecorder')
     title= title
     meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/km-buttons.css')
+    link(rel='stylesheet', href='/stylesheets/km-grid.min.css')
+    link(rel='stylesheet', href='/stylesheets/main.min.css')
+    link(rel='stylesheet', href='/stylesheets/km-buttons.min.css')
     link(rel='stylesheet', href='/stylesheets/animate.css')
   body
     //- nav.navbar.navbar-default
@@ -19,6 +20,7 @@ html(ng-app='Arecorder')
     //- 			img(alt="Brand" src="../images/km-logo-white.png")
     //- 	div.collapse.navbar-collapse#bs-example-navbar-collapse-1
     //- img.img-responsive.bg(src="../images/bg.jpg")
+    uib-alert(ng-repeat="alert in alerts" class="alert alert-fade" type="{{alert.type}}" style="font-weight: bold; opacity: 0.9;") {{alert.msg}}
     block content
     script(src='//code.jquery.com/jquery-1.11.3.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.js')
@@ -32,3 +34,4 @@ html(ng-app='Arecorder')
     script(src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js")
     script(src='/javascripts/wow.min.js')
     script(src='/javascripts/main.js')
+    script(src='/javascripts/km-tool.js')

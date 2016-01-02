@@ -1,4 +1,38 @@
 /*用之前先确定背景图片在对应的目录中*/
+@url-submit: "../images/module-bg.png";
+@url-cancel: "../images/module-bg-pink.png";
+@url-loading: "../images/module-bg-pink.png";
+
+@bgColor-submit: #7f7f7f;
+@color-submit: #fff;
+@borderColor-submit: #7f7f7f;
+@hover-bgColor-submit: #7f7f7f;
+@hover-color-submit: #fff;
+@hover-borderColor-submit: #46d4f3;
+@badgeColor-submit: #337ab7;
+@badgeBgColor-submit: #fff;
+@bgDisabled-submit: #bbb;
+
+@bgColor-cancel: transparent;
+@color-cancel: #fff;
+@borderColor-cancel: #7f7f7f;
+@hover-bgColor-cancel: transparent;
+@hover-color-cancel: #fff;
+@hover-borderColor-cancel: #fff;
+@badgeColor-cancel: #337ab7;
+@badgeBgColor-cancel: #fff;
+@bgDisabled-cancel: #bbb;
+
+@bgColor-loading: transparent;
+@color-loading: #fff;
+@borderColor-loading: #7f7f7f;
+@hover-bgColor-loading: transparent;
+@hover-color-loading: #fff;
+@hover-borderColor-loading: #fff;
+@badgeColor-loading: #337ab7;
+@badgeBgColor-loading: #fff;
+@bgDisabled-loading: #bbb;
+
 .btn {
   display: inline-block;
   padding: 6px 12px;
@@ -37,16 +71,14 @@
 .btn:active,
 .btn.active {
   outline: 0;
-  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 }
 .btn.disabled,
 .btn[disabled],
 fieldset[disabled] .btn {
   cursor: not-allowed;
   filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   opacity: .65;
 }
 a.btn.disabled,
@@ -58,8 +90,8 @@ fieldset[disabled] a.btn {
 
 .btn-submit {
   color: #fff;
-	background-color: #7f7f7f;
-  background-image: url(../images/module-bg.png);
+	background-color: @bgColor-submit;
+  background-image: url(@url-submit);
 	background-repeat: no-repeat;
 	background-position: 0 -50px;
   transition: all 0.5s;
@@ -86,7 +118,7 @@ fieldset[disabled] a.btn {
 .btn-submit:active,
 .btn-submit.active,
 .open > .dropdown-toggle.btn-submit {
-  background-image: url(../images/module-bg.png);
+  background-image: url(@url-submit);
 	background-position: 0 -18px;
   border: 1px #46d4f3 solid;
 }
@@ -134,7 +166,7 @@ fieldset[disabled] .btn-submit.active {
   color: #7f7f7f;
   border: 1px solid #7f7f7f;
   background-color: transparent;
-  background-image: url(../images/module-bg-pink.png);
+  background-image: url(@url-cancel);
   background-repeat: no-repeat;
   background-position: 0 -50px;
   transition-property: background-position, border;
@@ -146,7 +178,7 @@ fieldset[disabled] .btn-submit.active {
   .btn-cancel {
     color: #fff;
     background-position: 0 -18px;
-    border: 1px #fff solid;
+    border: 1px #7f7f7f solid;
   }
 }
 
@@ -165,7 +197,7 @@ fieldset[disabled] .btn-submit.active {
 .btn-cancel.active,
 .btn:active,
 .open > .dropdown-toggle.btn-cancel {
-  background-image: url(../images/module-bg-pink.png);
+  background-image: url(@url-cancel);
   color: #fff;
   background-position: 0 -18px;
   border: 1px solid #fff;
@@ -216,7 +248,7 @@ fieldset[disabled] .btn-cancel.active {
   color: #fff;
   border: 1px solid #fff;
   background-color: transparent;
-  background-image: url(../images/module-bg-pink.png);
+  background-image: url(@url-loading);
   background-repeat: no-repeat;
   background-position: -5px -51px;
   transition: all 0.5s;
@@ -237,7 +269,7 @@ fieldset[disabled] .btn-cancel.active {
 .btn-loading.active,
 .btn:active,
 .open > .dropdown-toggle.btn-loading {
-  background-image: url(../images/module-bg-pink.png);
+  background-image: url(@url-loading);
   color: #fff;
   background-position: -5px -16px;
   /*border: 1px solid #fff;*/

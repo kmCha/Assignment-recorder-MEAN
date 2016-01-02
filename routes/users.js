@@ -5,6 +5,26 @@ var Users = require('../config/userModel.js');
 var Profiles = require('../config/profileModel.js');
 var fs = require('fs');
 
+router.get('/signup', function(req, res, next) {
+	var result;
+	if(req.query.name) {
+		Users.findOne({name: req.query.name}, function(err, user){
+			if(err) return;
+			if(!user) {
+				result = {status: "success"};
+			}
+			else {
+				result = {status: "fail"};
+			}
+			res.json(result);
+		});
+	}
+	else{
+		result = {status: "fail"};
+		res.json(result);
+	}
+});
+
 router.post('/signup', function(req, res, next) {
 	if (req.body.password1 == req.body.password2) {    //两次密码相同
 		Users.findOne({
@@ -62,7 +82,7 @@ router.post('/login', function(req, res) {
 			shasum.update(req.body.password);
 			var password = shasum.digest('hex');							//同样用sha1加密登陆密码跟数据库中经过sha1加密之后的密码对比
 			if (user.password == password) {				//密码正确 添加session
-				req.session.cookie.expires = new Date(Date.now() + 6000000);        //只有登陆了才设置session name为帐号，否则为null，浏览器关闭自动销毁（见app.js)
+				req.session.cookie.expires = new Date(Date.now() + 6000000);        //只有登陆了才设置session name为帐号，否则为null，浏览器关闭自动销毁（见session.js)
 				req.session.name = user.name;
 				user.status = "succuss";
 				res.json(user);
@@ -85,7 +105,7 @@ router.get('/logout', function(req, res) {
 	req.session.cookie.expires = new Date(Date.now());        //将session销毁，就销毁了登陆状态
 	req.session.destroy(function(err){
 	});
-	var msg = {msg: "注销成功"};
+	var msg = {msg: "注销成功，正在返回主页..."};
 	res.json(msg);
 });
 
