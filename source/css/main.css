@@ -200,9 +200,11 @@ footer .km-xs-24 {
 }
 .mainBg {
   position: fixed;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
   left: 0;
   top: 45px;
-  z-index: -1000;
+  z-index: -10;
   transition: all 0.3s linear;
 }
 #signupGuide {
