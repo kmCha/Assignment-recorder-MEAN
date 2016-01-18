@@ -6,9 +6,10 @@ var less = require('gulp-less'),
 	autoprefixer = require('gulp-autoprefixer'),
 	rename = require('gulp-rename'),
     livereload = require('gulp-livereload'),
-	minifyCSS = require('gulp-minify-css');
+	minifyCSS = require('gulp-minify-css'),
+	concat  = require('gulp-concat');
 
-gulp.task('less', function() {
+gulp.task('less', ['clean-less'], function() {
 	return gulp.src('source/less/*.less')
 		.pipe(less({
 			paths: ['source/less/']
@@ -21,25 +22,36 @@ gulp.task('less', function() {
 		.pipe(minifyCSS())
 		.pipe(gulp.dest('public/stylesheets/'));
 });
+gulp.task('clean-less', function() {
+	return del(['public/stylesheets/*.css', 'source/css/*.css']);
+});
 
-gulp.task('scripts', ['clean'], function() {
-  return gulp.src('source/javascripts/*.js')
+
+
+gulp.task('scripts', ['scripts-min'], function() {
+	return gulp.src('source/javascripts/dist/*.min.js')
+		.pipe(concat('main.js'))
+		.pipe(gulp.dest('public/javascripts/'));
+});
+gulp.task('scripts-min', ['clean-scripts'], function() {
+  return gulp.src('source/javascripts/src/*.js')
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest('public/javascripts/'));
+    .pipe(gulp.dest('source/javascripts/dist/'));
+});
+gulp.task('clean-scripts', function() {
+	return del('public/javascripts/');
 });
 
-gulp.task('clean-less', function() {
-	return del(['public/stylesheets/']);
-});
 
-gulp.task('default', ['less']);
+
+gulp.task('default', ['less', 'scripts']);
 
 gulp.task('watch', function() {
   // Watch .less files
   gulp.watch('source/less/*.less', ['less']);
   // Watch .js files
-  // gulp.watch('src/scripts/**/*.js', ['scripts']);
+  gulp.watch('source/javascripts/src/*.js', ['scripts']);
   // Watch image files
   // gulp.watch('src/images/**/*', ['images']);
   // Create LiveReload server
