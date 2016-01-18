@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/assignments');
+mongoose.connect('mongodb://127.0.0.1/assignments');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

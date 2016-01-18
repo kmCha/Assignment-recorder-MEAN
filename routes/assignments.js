@@ -10,7 +10,7 @@ router.get('/:num', function(req, res) { //get作业
         .sort({
             date: -1
         }) //按日期倒序查询（最近的在最前面）
-        .limit(req.params.num) //限制返回个数
+        .limit(Number(req.params.num)) //限制返回个数
         .exec(function(err, assignments) {
             if (err) throw err;
             res.json(assignments);
