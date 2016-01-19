@@ -82,7 +82,7 @@ router.post('/login', function(req, res) {
 			shasum.update(req.body.password);
 			var password = shasum.digest('hex');							//同样用sha1加密登陆密码跟数据库中经过sha1加密之后的密码对比
 			if (user.password == password) {				//密码正确 添加session
-				req.session.cookie.expires = new Date(Date.now() + (15 * 24 * 60 * 60 * 1000));        //只有登陆了才设置session name为帐号，否则为null，浏览器关闭自动销毁（见session.js)
+				req.session.cookie.expires = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000);        //只有登陆了才设置session name为帐号，否则为null，浏览器关闭自动销毁（见session.js)
 				req.session.name = user.name;
 				user.status = "succuss";
 				res.json(user);
