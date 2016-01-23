@@ -42,38 +42,13 @@ gulp.task('clean-scripts', function() {
 });
 
 
-gulp.task('demoscripts', ['clean-demoscripts'], function() {
-  return gulp.src('source/demos/javascript/*.js')
-    .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
-    .pipe(concat('demos.js'))
-	.pipe(gulp.dest('public/javascripts/'));
-});
-gulp.task('clean-demoscripts', function() {
-	return del(['public/javascripts/demos.js', 'source/javascripts/dist/*.js']);
-});
-
-
-gulp.task('democss', ['clean-democss'], function() {
-	return gulp.src('source/demos/css/*.css')
-		.pipe(concat("demos.css"))
-		.pipe(minifyCSS())
-		.pipe(gulp.dest('public/stylesheets/'));
-});
-gulp.task('clean-democss', function() {
-	return del(['source/demos/css/dist/*.css', 'public/stylesheets/demos.css']);
-});
-
-
 gulp.task('default', ['less', 'scripts']);
 
 gulp.task('watch', function() {
   // Watch .less files
   gulp.watch('source/less/*.less', ['less']);
-  gulp.watch('source/demos/css/*.css', ['democss']);
   // Watch .js files
   gulp.watch('source/javascripts/src/*.js', ['scripts']);
-  gulp.watch('source/demos/javascript/*.js', ['demoscripts']);
   // Watch image files
   // gulp.watch('src/images/**/*', ['images']);
   // Create LiveReload server

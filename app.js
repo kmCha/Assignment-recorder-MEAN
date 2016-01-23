@@ -1,21 +1,22 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var mongoose = require('mongoose');
+var express = require('express'),
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
+    mongoose = require('mongoose'),
+    //routes
+    routes = require('./routes/index'),
+    users = require('./routes/users'),
+    assignments = require('./routes/assignments'),
+    profiles = require('./routes/profiles'),
+    uploads = require('./routes/uploads'),
+    // app
+    app = express();
+
 mongoose.connect('mongodb://127.0.0.1/assignments');
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var assignments = require('./routes/assignments');
-var profiles = require('./routes/profiles');
-var uploads = require('./routes/uploads');
-
-var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
