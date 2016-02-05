@@ -1,62 +1,54 @@
-<div class="km-container">
-	<div class="km-row">
-		<div class="km-s-8 km-xs-24">
-			<div class="avatarBox" style="min-height: 180px;">
-				<img class="avatarPiece" ng-src="../uploads/avatars/{{profile.username}}.jpg" ng-hide="picFile" height="180" width="180">
-				<img ngf-thumbnail="picFile" class="avatarPiece" ng-show="picFile" height="180" width="180">
-				<div class="avatarPiece">
-					<form class="avatarForm" enctype='multipart/form-data' name="avatarForm">
-						<input type="file" ngf-select ng-model="picFile" name="avatar" accept="image/*" ngf-max-size="0.5MB" required>
-					</form>
-				</div>
-			</div>
-		</div>
-
-		<div class="km-s-16 km-xs-24">
-			<form class="form-horizontal">
-				<div class="form-group">
-					<label class="km-xs-4 control-label">用户:</label>
-					<div class="km-xs-20">
-						<p class="form-control-static">{{profile.username}}</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="km-xs-4 control-label">头像:</label>
-					<div class="km-xs-20">
-						<p class="form-control-static">点击图片上传头像</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="km-xs-4 control-label">性别:</label>
-					<div class="km-xs-20 km-s-10">
-						<label class="radio-inline">
-							<input type="radio" ng-model="profile.gender" value="male">男</label>
-						<label class="radio-inline">
-							<input type="radio" ng-model="profile.gender" value="female">女</label>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="km-xs-4 control-label">学校:</label>
-					<div class="km-xs-20 km-s-10">
-						<input type="text" class="form-control" ng-model="profile.school"></div>
-				</div>
-				<div class="form-group">
-					<label class="km-xs-4 control-label">专业:</label>
-					<div class="km-xs-20 km-s-10">
-						<input type="text" class="form-control" ng-model="profile.major"></div>
-				</div>
-				<div class="form-group">
-					<label class="km-xs-4 control-label"></label>
-					<div class="km-xs-20 km-s-10">
-						<input type="button" class="btn btn-submit" ng-click="update(picFile)" value="更新">
-						<a href="javascript:void(0);" class="btn btn-cancel" ng-click="goBack()">返回</a>
-						<span class="profileUpdate km-animate-fade" ng-show="status">{{msg}}</span>
-						<span class="profileUpdateErr km-animate-fade" ng-show="avatarForm.avatar.$error.maxSize">图片不要超过512KB朋友</span>
-					</div>
-				</div>
+<div class="profileWrap">
+	<h1>编辑资料</h1>
+	<div class="avatarBox" style="min-height: 180px;">
+		<img class="avatarPiece" ng-src="../uploads/avatars/{{profile.username}}.jpg" ng-hide="picFile" height="180" width="180">
+		<img ngf-thumbnail="picFile" class="avatarPiece" ng-show="picFile" height="180" width="180">
+		<div class="avatarPiece">
+			<form class="avatarForm" enctype='multipart/form-data' name="avatarForm">
+				<input type="file" ngf-select ng-model="picFile" name="avatar" accept="image/*" ngf-max-size="0.5MB" required>
 			</form>
 		</div>
 	</div>
-	<!-- row -->
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label class="km-xs-8 control-label">用户:</label>
+			<div class="km-xs-16">
+				<p class="form-control-static">{{profile.username}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="km-xs-8 control-label">头像:</label>
+			<div class="km-xs-16">
+				<p class="form-control-static">点击图片上传头像</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="km-xs-8 control-label">性别:</label>
+			<div class="km-xs-16 km-s-10">
+				<label class="radio-inline">
+					<input type="radio" ng-model="profile.gender" value="male">男</label>
+				<label class="radio-inline">
+					<input type="radio" ng-model="profile.gender" value="female">女</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="km-xs-8 control-label">学校:</label>
+			<div class="km-xs-16 km-s-10">
+				<input type="text" class="form-control" ng-model="profile.school"></div>
+		</div>
+		<div class="form-group">
+			<label class="km-xs-8 control-label">专业:</label>
+			<div class="km-xs-16 km-s-10">
+				<input type="text" class="form-control" ng-model="profile.major"></div>
+		</div>
+		<div class="form-group">
+			<label class="km-xs-8 control-label"></label>
+			<div class="km-xs-16 km-s-10">
+				<input type="button" class="btn btn-submit" ng-click="update(picFile)" value="更新">
+				<a href="javascript:void(0);" class="btn btn-cancel" ng-click="goBack()">返回</a>
+				<span class="profileUpdate km-animate-fade" ng-show="status">{{msg}}</span>
+				<span class="profileUpdateErr km-animate-fade" ng-show="avatarForm.avatar.$error.maxSize">图片不要超过512KB朋友</span>
+			</div>
+		</div>
+	</form>
 </div>
-<!-- container -->
