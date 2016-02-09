@@ -4,10 +4,10 @@ var Profiles = require('../config/profileModel.js');
 
 router.get('/:username', function(req, res) {					//
 	if(req.session.name == req.params.username) {
-	  Profiles.findOne( {username : req.params.username}).exec(function(err, profile){
-	      if (err) throw err;
-	      res.json(profile);
-	  });
+		Profiles.findOne( {username : req.params.username}).exec(function(err, profile){
+	    	if (err) throw err;
+	    	res.json(profile);
+		});
 	}
 	else if (req.session.name) {
 		var msg = { msg : '你看别人的资料干啥'};

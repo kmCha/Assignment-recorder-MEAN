@@ -33,17 +33,17 @@ router.post('/signup', function(req, res, next) {
 			if (!user) {								//数据库中没有提交的账号
 				var shasum = crypto.createHash('sha1');							//sha1不可逆加密密码然后再保存
 				shasum.update(req.body.password1);
-				var password = shasum.digest('hex');
-				var dir = './public/uploads/files/'+req.body.name;						//创建用户上传目录
+				var password = shasum.digest('hex'),
+					dir = './public/uploads/files/'+req.body.name;						//创建用户上传目录
 				fs.mkdir(dir);
-				var readStream = fs.createReadStream('./public/uploads/avatars/default.jpg');
-				var writeStream = fs.createWriteStream('./public/uploads/avatars/' + req.body.name + '.jpg');
+				var readStream = fs.createReadStream('./public/uploads/avatars/default.jpg'),
+					writeStream = fs.createWriteStream('./public/uploads/avatars/' + req.body.name + '.jpg');
 				readStream.pipe(writeStream);
 				readStream.on('end', function () {
-				 console.log('copy end');
+					console.log('copy end');
 				});
 				readStream.on('error', function () {
-				 console.log('copy error');
+					console.log('copy error');
 				});
 				Profiles.create({							//插入用户profile
 					username: req.body.name,
