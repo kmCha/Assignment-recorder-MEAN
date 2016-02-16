@@ -1,13 +1,13 @@
-var express = require('express');
-var app = express();
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var express = require('express'),
+    app = express(),
+    session = require('express-session'),
+    MongoStore = require('connect-mongo')(session);
 
 
 module.exports = function(app){
 	app.use(session({
     secret: '12345',
-    name: 'user', //这里的name值得是cookie的name，默认cookie的name是：connect.sid
+    name: 'user', //这里的name指的是cookie的name，默认cookie的name是：connect.sid
     cookie: {
       maxAge: null
     }, //设置maxAge是null，cookie和session同时过期
