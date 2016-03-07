@@ -110,6 +110,7 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/', function(req, res) {
+	console.log(req.sessionID);
 	if (req.session.name) {											//如果有session（也就是说有人登陆），那么返回登陆的用户名给angular app
 		res.json({username: req.session.name});
 	}

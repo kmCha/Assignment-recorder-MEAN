@@ -29,32 +29,32 @@ var uploadFile = multer({ storage: storageFile, limits: {fileSize: 2 * 1024 * 10
 module.exports = function (app){
 	app.post('/upload/avatar', function (req, res, next) {
 		uploadAva(req, res, function (err) {
-    if (err) {
-      // An error occurred when uploading
-      res.send(err);
-      return;
-    }
-    // console.log(req.file.mimetype);
-    // console.log(req.file.path);
-    var msg = { status: "success"};
-    res.json(msg);
-    // Everything went fine
+      if (err) {
+        // An error occurred when uploading
+        res.send(err);
+        return;
+      }
+      // console.log(req.file.mimetype);
+      // console.log(req.file.path);
+      var msg = { status: "success"};
+      res.json(msg);
+      // Everything went fine
 	  });
 	  // req.file is the `avatar` file
 	  // req.body will hold the text fields, if there were any
 	});
 	app.post('/upload/file', function (req, res, next) {
 		uploadFile(req, res, function (err) {
-    if (err) {
-      // An error occurred when uploading
-      res.send(err);
-      return;
-    }
-    // console.log(req.file.mimetype);
-    //console.log(req.body.fileId);
-    var msg = { status: "success"};
-    res.json(msg);
-    // Everything went fine
+      if (err) {
+        // An error occurred when uploading
+        res.send(err);
+        return;
+      }
+      // console.log(req.file.mimetype);
+      //console.log(req.body.fileId);
+      var msg = { status: "success"};
+      res.json(msg);
+      // Everything went fine
 	  });
 	  // req.file is the `avatar` file
 	  // req.body will hold the text fields, if there were any

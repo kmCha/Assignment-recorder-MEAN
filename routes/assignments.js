@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var Assignments = require('../config/assignmentModel.js');
-var fs = require('fs');
+var express = require('express'),
+    router = express.Router(),
+    Assignments = require('../config/assignmentModel.js'),
+    fs = require('fs');
 
 router.get('/:num', function(req, res) { //get作业
     Assignments.find({
