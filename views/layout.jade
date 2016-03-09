@@ -5,7 +5,6 @@ html(ng-app='Arecorder')
     meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/main.css')
-    link(rel='stylesheet', href='/stylesheets/demos.css')
   body
     uib-alert(ng-repeat="alert in alerts" class="alert alert-fade" type="{{alert.type}}" style="font-weight: bold; opacity: 0.9;") {{alert.msg}}
     block content
@@ -16,4 +15,3 @@ html(ng-app='Arecorder')
     script(src='https://code.angularjs.org/1.4.7/angular-animate.min.js')
     script(src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js")
     script(src='/javascripts/main.js')
-    //- script(src='/javascripts/demos.js')
