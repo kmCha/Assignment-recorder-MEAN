@@ -49,6 +49,7 @@ router.get('/edit/:id', function(req, res) {
 });
 
 router.put('/edit/:id', function(req, res) {
+    console.log(req.params);
     Assignments.update({
         _id: req.params.id
     }, {

@@ -103,14 +103,13 @@ router.post('/login', function(req, res) {
 
 router.get('/logout', function(req, res) {
 	req.session.cookie.expires = new Date(Date.now());        //将session销毁，就销毁了登陆状态
-	req.session.destroy(function(err){
-	});
+	req.session.destroy();
 	var msg = {msg: "注销成功，正在返回主页..."};
 	res.json(msg);
 });
 
 router.get('/', function(req, res) {
-	console.log(req.sessionID);
+	// console.log(req.sessionID);
 	if (req.session.name) {											//如果有session（也就是说有人登陆），那么返回登陆的用户名给angular app
 		res.json({username: req.session.name});
 	}

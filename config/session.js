@@ -1,5 +1,4 @@
 var express = require('express'),
-    app = express(),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session);
 
