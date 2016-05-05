@@ -1,23 +1,32 @@
+<div class="modal-header">
+    <h4>用户登录</h4>
+</div>
+<div class="modal-body">
 <form name="myForm" novalidate>
     <div class="form-group">
         <label>用户名:</label>
         <input class="form-control" ng-model="user.name" name="name" ng-minlength="8" ng-maxlength="12" required>
-        <p style="color:red" ng-show="myForm.name.$dirty && myForm.name.$invalid">
-            <span ng-show="myForm.name.$error.required">用户名是必须的</span>
-            <span ng-show="myForm.name.$error.maxlength">用户名长度超过12字符</span>
-            <span ng-show="myForm.name.$error.minlength">用户名长度最少8字符</span>
+        <p class="km-animate-fade" ng-show="myForm.name.$dirty && myForm.name.$invalid">
+            <span class="km-animate-fade nameAnimate" ng-show="myForm.name.$error.required">用户名是必须的</span>
+            <span class="km-animate-fade nameAnimate" ng-show="myForm.name.$error.maxlength">用户名长度超过12字符</span>
+            <span class="km-animate-fade nameAnimate" ng-show="myForm.name.$error.minlength">用户名长度最少8字符</span>
         </p>
     </div>
     <div class="form-group">
         <label>密码:</label>
-        <input type="password" class="form-control" name="password" ng-model="user.password" ng-minlength="8" ng-maxlength="15" required>
-        <p style="color:red" ng-show="myForm.password.$dirty && myForm.password.$invalid">
-            <span ng-show="myForm.password.$error.required">密码是必须的</span>
-            <span ng-show="myForm.password.$error.maxlength">密码长度超过15字符</span>
-            <span ng-show="myForm.password.$error.minlength">密码长度最少8字符</span>
+        <input type="password" class="form-control" name="password" ng-model="user.password" ng-minlength="6" ng-maxlength="15" required>
+        <p class="km-animate-fade" ng-show="myForm.password.$dirty && myForm.password.$invalid">
+            <span class="km-animate-fade passAnimate" ng-show="myForm.password.$error.required">密码是必须的</span>
+            <span class="km-animate-fade passAnimate" ng-show="myForm.password.$error.maxlength">密码长度超过15字符</span>
+            <span class="km-animate-fade passAnimate" ng-show="myForm.password.$error.minlength">密码长度最少6字符</span>
         </p>
     </div>
-    <input type="button" class="btn btn-primary" value="登陆" ng-disabled="myForm.name.$dirty && myForm.name.$invalid ||
-  myForm.password.$dirty && myForm.password.$invalid" ng-click="login()">
-    <a type="button" class="btn btn-default" href="/#/">取消</a>
 </form>
+
+</div>
+
+<div class="modal-footer">
+    <input type="button" class="btn btn-submit" value="登陆" ng-disabled="myForm.name.$dirty && myForm.name.$invalid ||
+  myForm.password.$dirty && myForm.password.$invalid || myForm.name.$pristine || myForm.password.$pristine" ng-click="login()">
+    <a type="button" class="btn btn-cancel" href="javascript:void(0);" ng-click="cancel()">取消</a>
+</div>

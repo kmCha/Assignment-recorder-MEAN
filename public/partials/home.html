@@ -1,40 +1,162 @@
-<div class="row">
-	<div class="col-sm-4 col-sm-offset-4">
-		<a href="/#/add-assignment" class="btn btn-default" ng-hide="status"><span class="glyphicon glyphicon-duplicate"></span> 添加作业</a>
-		<a href="/#/login" class="btn btn-default" ng-show="status">登录</a>
-		<a href="/#/signup" class="btn btn-default" ng-show="status">注册</a>
-		<a href="/#/" class="btn btn-default" ng-click="logout()" ng-hide="status">注销</a>
-		search: <input type="text" ng-model="query">
+<!-- navbar：也就是header -->
+<nav class="navbar-fixed-top navbar-default wow fadeInDown" data-wow-duration="1s">
+	<div class="km-container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/#/">Assignment Recorder</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li>
+					<a href="javascript:void(0);" ng-click="openAdd()" ng-hide="status">
+						<span class="glyphicon glyphicon-duplicate"></span> <b>添加作业</b>
+					</a>
+				</li>
+			</ul>
+			<form class="navbar-form navbar-left" role="search" ng-hide="status">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</div>
+						<input type="text" ng-model="query" class="form-control form-control-nav" placeholder="直接输入关键字"></div>
+				</div>
+			</form>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="/#/profile/{{username}}" class="noLink" ng-hide="status">
+						<img ng-src="../uploads/avatars/{{username}}.jpg" alt="profile" height="40px" width="40px"> <b>{{username}}</b>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);" class="logout" ng-click="logout()" ng-hide="status">
+						<b>注销</b>
+					</a>
+				</li>
+				<li>
+					<img class="navbar-brand navbar-brand-img" src="../images/km-logo-white.png"></li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
 	</div>
-	<div class="col-sm-6 col-sm-offset-3">
-		<table class="table table-striped" ng-hide="status">
-			<thead>
-				<tr>
-					<th class="text-center">课程代码</th>
-					<th class="text-center">课程名字</th>
-					<th class="text-center">截止日期</th>
-					<th class="text-center">作业描述</th>
-					<th class="text-center">编辑</th>
-					<th class="text-center">删除</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat='assignment in assignments | filter:query | orderBy:order'>
-						<th class="text-center">{{assignment.code}}</th>
-						<th class="text-center">{{assignment.title}}</th>
-						<th class="text-center">{{assignment.date}}</th>
-						<th class="text-center">
-								<a popover-animation="true" uib-popover="{{assignment.description}}"><i class="glyphicon glyphicon-info-sign"></i></a>
-						</th>
-						<th class="text-center"><a href="/#/assignments/{{assignment._id}}"><i class="glyphicon glyphicon-edit"></i></a></th>
-						<th class="text-center"><a href="/#/assignments/delete/{{assignment._id}}"><i class="glyphicon glyphicon-remove"></i></a></th>
-				</tr>
-			</tbody>
-		</table>
-		<h1 ng-show="firstStatus">欢迎来到Assignment Recorder，点击添加作业新增无穷无尽的作业吧</h1>
-		<input type="hidden" ng-model="status">							<!-- status是登陆状态，true为未登陆，false为已登陆 -->
-		<input type="hidden" ng-model="firstStatus">				<!-- firstStatus是首次登陆状态，true为第一次登陆，false为非第一次登陆（有作业记录） -->
-		<h1 ng-show="status">{{msg}}</h1>
+</nav>
+
+<div class="loadingArea flexParent" style="height: {{height-40}}px;" ng-show="status">
+	<div class="km-container">
+		<div class="km-row">
+			<div class="km-xs-4 km-xs-offset-10">
+				<!-- <i class="glyphicon glyphicon-refresh loadingAssignment"></i> -->
+				<img src="../images/loading-home.png" class="km-responsive loadingHome">
+			</div>
+		</div>
 	</div>
 </div>
 
+<div class="mainArea" ng-hide="status">
+	<div class="km-container">
+		<div class="km-row">
+			<img class="mainBg" src="../images/wallpaper6.png" height="{{height+40}}" width="{{width}}">
+			<div class="km-m-20 km-m-offset-2">
+				<div class="assignmentContainer km-row" style="min-height: {{height-40}}px;">
+
+					<div class="km-m-12 assignment-fade" ng-repeat='assignment in assignments | filter:query | orderBy:"-date"'>
+						<div class="assignments" ng-class="{color : !assignment.submit}">
+							<a ng-href="../uploads/files/{{username}}/{{assignment._id}}.pdf" class="downloadAssignment"> <i class="glyphicon glyphicon-download"></i>
+							</a>
+							<a class="removeAssignment" ng-click="openDelete(assignment._id)"> <i class="glyphicon glyphicon-remove"></i>
+							</a>
+							<a class="editAssignment" ng-click="openEdit(assignment._id)">
+								<i class="glyphicon glyphicon-edit"></i>
+							</a>
+							<div class="checkSubmit">
+								<input id="submitStatus{{assignment._id}}" type="checkbox" ng-model="assignment.submit" ng-change="update(assignment)">
+								<label for="submitStatus{{assignment._id}}"></label>
+							</div>
+							<div class="assignmentHeader">
+								<h3>
+									<b>{{assignment.code}}</b>
+								</h3>
+								<p>
+									<small>{{assignment.title}}</small>
+								</p>
+							</div>
+							<div class="km-row">
+								<div class="km-xs-12 km-xs-offset-6">
+									<div class="assignmentBody">
+										<p>
+											<b>{{assignment.description}}</b>
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="assignmentFooter">
+								<h3>
+									<b>{{assignment.date}}</b>
+								</h3>
+							</div>
+						</div>
+					</div>
+					<!-- 还没添加作业的提示页面 -->
+					<div class="km-m-12 km-m-offset-6" ng-show="firstStatus">
+						<h2>
+							<b>{{username}}</b>
+							, 欢迎来到Assignment Recorder，点击添加作业新增无穷无尽的作业吧
+						</h2>
+						<img src="../images/firststatus.png" height="215" width="300"></div>
+					<!-- 还没添加作业的提示页面 -->
+					<div class="km-xs-24 km-animate-fadeIn loadGroup" ng-hide="busy || noMore || firstStatus">
+						<a class="btn btn-loading" ng-click="nextPage()">我还要更多！</a>
+					</div>
+					<div class="km-xs-24 loadGroup" ng-show="busy">
+						<!-- <i class="glyphicon glyphicon-refresh loadingAssignment"></i>
+					-->
+					<img src="../images/loading.gif" height="45" width="45"></div>
+				<div class="km-xs-24 km-animate-fadeIn loadGroup" ng-show="noMore">
+					<p>
+						<b>没有更多了朋友</b>
+					</p>
+				</div>
+			</div>
+			<!-- assignmentContainer -->
+		</div>
+	</div>
+</div>
+</div>
+<!-- mainArea：登陆之后的页面 -->
+
+<footer class="">
+<div class="km-container">
+	<div class="km-row">
+		<div class="km-xs-24">
+			友情链接：
+			<a href="https://angularjs.org/" target="_blank" class="wow bounceIn" data-wow-delay="0.5s">
+				<img src="../images/logo-angular.png" height="30" width="30"></a>
+			<a href="http://getbootstrap.com/" target="_blank" class="wow bounceIn" data-wow-delay="0.6s">
+				<img src="../images/logo-bootstrap.png" height="30" width="30"></a>
+			<a href="http://expressjs.com/" target="_blank" class="wow bounceIn" data-wow-delay="0.7s">
+				<img src="../images/logo-express.png" height="30" width="30"></a>
+			<a href="https://www.mongodb.org/" target="_blank" class="wow bounceIn" data-wow-delay="0.8s">
+				<img src="../images/logo-mongo.png" height="30" width="30"></a>
+			<a href="https://github.com/" target="_blank" class="wow bounceIn" data-wow-delay="0.9s">
+				<img src="../images/logo-github.png" height="30" width="30"></a>
+			<a href="https://nodejs.org/en/" target="_blank" class="wow bounceIn" data-wow-delay="1s">
+				<img src="../images/logo-node.png" height="30" width="30"></a>
+			<a href="https://jquery.com/" target="_blank" class="wow bounceIn" data-wow-delay="1.1s">
+				<img src="../images/logo-jquery.png" height="30" width="30"></a>
+		</div>
+		<div class="km-xs-24">
+			<p>
+				Copyright ©2015-2016 <a href="http://kmhaoshuai.com" target="_blank">MAJIUXI CHA</a>
+			</p>
+		</div>
+	</div>
+</div>
+</footer>

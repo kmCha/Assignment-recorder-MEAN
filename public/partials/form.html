@@ -1,22 +1,39 @@
-<h1>Add a Video</h1>
+<div class="modal-header">
+    <h4>添加作业</h4>
+</div>
 
-<form>
-    <div class="form-group">
-        <label>Course Title:</label>
-        <input class="form-control" ng-model="assignment.title">
-    </div>
-    <div class="form-group">
-        <label>Course Code:</label>
-        <input class="form-control" ng-model="assignment.code">
-    </div>
-    <div class="form-group">
-        <label>Description:</label>
-        <textarea class="form-control" ng-model="assignment.description"></textarea>
-    </div>
-    <div class="form-group">
-        <label>Due Date:</label>
-        <input type="date" class="form-control" ng-model="assignment.date">
-    </div>
-    <input type="button" class="btn btn-primary" value="Save" ng-click="save()">
-    <a type="button" class="btn btn-default" href="/#/">取消</a>
-</form>
+<div class="modal-body">
+	<form name="fileForm">
+	    <div class="form-group">
+	        <label>课程名<span style="color: #fff0f9;">(*)</span>:</label>
+	        <input class="form-control" ng-model="assignment.title" required>
+	    </div>
+	    <div class="form-group">
+	        <label>课程代码<span style="color: #fff0f9;">(*)</span>:</label>
+	        <input class="form-control" ng-model="assignment.code" required>
+	    </div>
+	    <div class="form-group">
+	        <label>作业描述:</label>
+	        <textarea class="form-control" ng-model="assignment.description"></textarea>
+	    </div>
+	    <div class="form-group">
+	        <label>截止日期<span style="color: #fff0f9;">(*)</span>:</label>
+	        <input type="date" class="form-control" ng-model="assignment.date" placeholder="YYYY-MM-DD" value="YYYY-MM-DD" required>
+	    </div>
+			<div class="form-group">
+	        <label>作业文件:</label>
+			<input type="file" name="file" ngf-select ng-model="assiFile" accept="application/pdf" ngf-max-size="2MB">
+	    </div>
+<!-- 			<div class="form-group">
+	        <label>作业交了吗:</label>
+	        <label class="radio-inline">
+						<input type="checkbox" ng-model="assignment.submit">早就交了
+					</label>
+	    </div> -->
+	</form>
+</div>
+
+<div class="modal-footer">
+	<input type="button" class="btn btn-submit" value="添加" ng-disabled="!fileForm.$valid" ng-click="save(assiFile)">
+	<a type="button" class="btn btn-cancel" ng-click="cancel()">取消</a>
+</div>

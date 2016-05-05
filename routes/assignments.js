@@ -1,58 +1,65 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+    router = express.Router(),
+    Assignments = require('../config/assignmentModel.js'),
+    fs = require('fs');
 
-var monk = require('monk');
-var db = monk('localhost:27017/assignments');
+router.get('/:num', function(req, res) { //get作业
+    Assignments.find({
+            user: req.session.name
+        })
+        .sort({
+            date: -1
+        }) //按日期倒序查询（最近的在最前面）
+        .limit(Number(req.params.num)) //限制返回个数
+        .exec(function(err, assignments) {
+            if (err) throw err;
+            res.json(assignments);
+        });
+});
 
-router.get('/', function(req, res) {					//get作业
-    var collection = db.get('assignment');
-    if (req.session.name) {     		//有session name，即用户登陆了之后的情况
-	    collection.find( {user : req.session.name}, function(err, assignments){
-	        if (err) throw err;
-	        res.json(assignments);
-	    });
+router.post('/', function(req, res) { //添加作业
+    if (req.session.name) {
+        Assignments.create({
+            title: req.body.title,
+            code: req.body.code,
+            description: req.body.description,
+            date: req.body.date.substr(0, 10),
+            user: req.session.name
+        }, function(err, assignment) {
+            if (err) throw err;
+            res.json(assignment);
+        });
+    } else {
+        //先登录
+        msg = {
+            msg: '先登录'
+        };
+        res.json(msg);
     }
-    else{
-    	var msg = [{msg:"先登录才能添加作业哦"}];
-    	res.json(msg);
-    }
 });
 
-router.post('/', function(req, res){					//添加作业
-    var collection = db.get('assignment');
-    collection.insert({
-        title: req.body.title,
-        code: req.body.code,
-        description: req.body.description,
-        date: req.body.date.substr(0, 10),
-        user: req.session.name
-    }, function(err, assignment){
-        if (err) throw err;
-        res.json(assignment);
-    });
-});
-
-router.get('/:id', function(req, res) {
-    var collection = db.get('assignment');
-    collection.findOne({ _id: req.params.id }, function(err, assignment){
-        if (err) throw err;
-
-      	res.json(assignment);
-    });
-});
-
-router.put('/:id', function(req, res){
-    var collection = db.get('assignment');
-    collection.update({
+router.get('/edit/:id', function(req, res) {
+    Assignments.findOne({
         _id: req.params.id
-    },
-    {
+    }, function(err, assignment) {
+        if (err) throw err;
+
+        res.json(assignment);
+    });
+});
+
+router.put('/edit/:id', function(req, res) {
+    console.log(req.params);
+    Assignments.update({
+        _id: req.params.id
+    }, {
         title: req.body.title,
         code: req.body.code,
         description: req.body.description,
         date: req.body.date.substr(0, 10),
-        user: req.session.name
-    }, function(err, assignment){
+        user: req.session.name,
+        submit: req.body.submit
+    }, function(err, assignment) {
         if (err) throw err;
 
         res.json(assignment);
@@ -60,14 +67,17 @@ router.put('/:id', function(req, res){
 });
 
 
-router.delete('/:id', function(req, res){
-    var collection = db.get('assignment');
-    collection.remove({ _id: req.params.id }, function(err, assignment){
+router.delete('/delete/:id', function(req, res) {
+    Assignments.remove({
+        _id: req.params.id
+    }, function(err, assignment) {
         if (err) throw err;
+        if (fs.existsSync('./public/uploads/files/' + req.session.name + '/' + req.params.id + '.pdf')) {
+            fs.unlink('./public/uploads/files/' + req.session.name + '/' + req.params.id + '.pdf');
+        }
 
         res.json(assignment);
     });
 });
-
 
 module.exports = router;

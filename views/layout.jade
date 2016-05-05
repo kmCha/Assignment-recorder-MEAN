@@ -2,13 +2,16 @@ doctype html
 html(ng-app='Arecorder')
   head
     title= title
+    meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/main.css')
   body
-    //- img.img-responsive.bg(src="../images/bg.jpg")
+    uib-alert(ng-repeat="alert in alerts" class="alert alert-fade" type="{{alert.type}}" style="font-weight: bold; opacity: 0.9;") {{alert.msg}}
     block content
+    script(src='//code.jquery.com/jquery-1.11.3.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-resource.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-route.js')
-    script(src='/javascripts/ui-bootstrap-tpls.min.js')
-    script(src='/javascripts/Arecorder.js')
+    script(src='https://code.angularjs.org/1.4.7/angular-animate.min.js')
+    script(src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js")
+    script(src='/javascripts/main.js')

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>KM-modal</title>
+	<link rel="stylesheet" type="text/css" href="KM-modal.min.css">
+	<style type="text/css">
+	.superbig {
+		height: 1000px;
+		width: 100%;
+	}
+	.wrapper {
+		padding-top: 200px;
+		margin: 0;
+	  	display: flex;
+	  	flex-direction: column;
+	  	align-items: center;
+	  	justify-content: center;
+	}
+	.buttons {
+		padding: 50px 0;
+	}
+	.buttons button {
+		cursor: pointer;
+		color: #fff;
+		padding: 5px 10px;
+		border-radius: 5px;
+		border: none;
+		background-color: #7e7e7e;
+		transition: 0.5s all ease;
+	}
+	.buttons button:hover {
+		background-color: #bebebe;
+		color: #000;
+	}
+	a {
+		text-decoration: none;
+		color: #eb8888;
+		transition: 0.5s all ease;
+	}
+	a:hover {
+		color: #46d4f3;
+	}
+	</style>
+</head>
+<body>
+	<div id="modal1" class="modal-wrap">
+		<div class="modal-content">
+			<div class="modal-header">modal-1</div>
+			<div class="modal-body">
+				<div class="modal-group">
+					<label for="input1-1">文本输入：</label>
+					<input id="input1-1" type="text" value="lalala">
+				</div>
+				<div class="modal-group">
+					<label for="input1-2">文本域：</label>
+					<textarea id="input1-2">拖动感受下</textarea>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button>确定</button>
+				<button data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+	<div id="modal2" class="modal-wrap">
+		<div class="modal-content">
+			<div class="modal-header">modal-2</div>
+			<div class="modal-body">
+				<h1>我是h1</h1>
+				<h2>我是h2</h2>
+				<h3>我是h3</h3>
+				<b>我是b，我不是针对谁，我的意思是在座的各位都是……</b>
+				<p>这是一个p元素但是我真的不知道写些啥所以只能刷屏了：查马纠西是帅哥查马纠西是帅哥查马纠西是帅哥查马纠西是帅哥查马纠西是帅哥查马纠西是帅哥查马纠西是帅哥查马纠西是帅哥查马纠西是帅哥</p>
+				<span>“我是span元素”</span>
+				<span>“这么巧我也是”</span>
+			</div>
+			<div class="modal-footer">
+				<button>确定</button>
+				<button data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+	<div id="modal3" class="modal-wrap">
+		<div class="modal-content">
+			<div class="modal-header">modal-3</div>
+			<div class="modal-body">
+				<div class="superbig">我炒鸡大，滚动我试试</div>
+				好你可以滚回去了(￣▽￣)
+			</div>
+			<div class="modal-footer">
+				<button>确定</button>
+				<button data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+	<div class="wrapper">
+			<h3>KM-Modal(模态框插件)</h3><sup><a href="http://kmhaoshuai.com">by.kMchA</a></sup>
+			<p>Lightweighted, Responsive, Customisable</p>
+		<div class="buttons">
+			<button data-toggle="modal" data-target="modal1">modal1</button>
+			<button data-toggle="modal" data-target="modal2">modal2</button>
+			<button data-toggle="modal" data-target="modal3">modal3(超大)</button>
+		</div>
+		<a href="https://github.com/kmCha/KM-modal">源码地址</a>
+	</div>
+	<script type="text/javascript" src="KM-modal.min.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+			var modal = new Modal();
+			modal.init();
+		};
+	</script>
+</body>
+</html>

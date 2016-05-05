@@ -1,20 +1,22 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var express = require('express'),
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
+    mongoose = require('mongoose'),
+    //routes
+    routes = require('./routes/index'),
+    users = require('./routes/users'),
+    assignments = require('./routes/assignments'),
+    profiles = require('./routes/profiles'),
+    uploads = require('./routes/uploads'),
+    // app
+    app = express();
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var assignments = require('./routes/assignments.js');
-var router = express.Router();
-
-var monk = require('monk');
-var db = monk('localhost:27017/assignments');
-var app = express();
+mongoose.connect('mongodb://127.0.0.1/assignments');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -28,54 +30,14 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: '12345',
-  name: 'user', //这里的name值得是cookie的name，默认cookie的name是：connect.sid
-  cookie: {
-    maxAge: null
-  }, //设置maxAge是null，cookie和session同时过期
-  resave: false,
-  saveUninitialized: true,
-  store: new MongoStore({ //创建新的mongodb数据库
-    host: 'localhost', //数据库的地址，本机的话就是127.0.0.1，也可以是网络主机
-    port: 27017, //数据库的端口号
-    db: 'test-session' //数据库的名称。
-  })
-}));
+require('./config/session')(app);
+
 
 app.use('/', routes);
 app.use('/api/users', users);
 app.use('/api/assignments', assignments);
-
-
-// /* GET users listing. */
-// router.post('/api/users/signup', function(req, res, next) {
-//   var collection = db.get('user');
-//   collection.insert({
-//     name: req.body.name,
-//     password: req.body.password1
-//   }, function(err, user) {
-//     if (err) throw err;
-//     res.json(user);
-//   });
-// });
-
-// router.post('/api/users/login', function(req, res) {
-//   var collection = db.get('user');
-//   collection.findOne({
-//     name: req.body.name
-//   }, function(err, user) {
-//     if (err) throw err;
-//     if (user) {
-//      res.json(user);
-
-//     }
-//   });
-// });
-
-// app.use('/', router);
-
-
+app.use('/api/profiles', profiles);
+uploads(app);
 
 
 
