@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>梁计算</title>
+  </head>
+  <body>
+    总根数：
+    <input class="num-all" type="text" value="2">
+    长:
+    <input class="length" type="text" value="300">
+    宽:
+    <input class="width" type="text" value="240">
+    梁长：
+    <input class="net-length" type="text" value="1800">
+    箍直径:
+    <input class="gu-d" type="text" value="6">
+    间距：
+    <input class="space" type="text" value="200">
+    上根数：
+    <input class="num-up" type="text" value="2">
+    上直径：
+    <input class="up-d" type="text" value="14">
+    下根数：
+    <input class="num-down" type="text" value="2">
+    下直径：
+    <input class="down-d" type="text" value="16">
+    <br>
+    端支座：
+    <input class="end-base" type="text" value="240">
+    保护层：
+    <input class="protect-layer" type="text" value="15">
+    <br>
+    <button type="button">说结果</button>
+    <script type="text/javascript">
+      window.onload = function() {
+        var count = 0;
+        document.querySelector('button').onclick = function() {
+          count++;
+          var l = Number(document.querySelector('.length').value),
+              w = Number(document.querySelector('.width').value),
+              num = Number(document.querySelector(".num-all").value),
+              guD = Number(document.querySelector('.gu-d').value),
+              netL = Number(document.querySelector('.net-length').value),
+              space = Number(document.querySelector('.space').value),
+              endBase = Number(document.querySelector('.end-base').value),
+              protectLayer = Number(document.querySelector('.protect-layer').value),
+              upD = Number(document.querySelector('.up-d').value),
+              numUp = Number(document.querySelector('.num-up').value),
+              downD = Number(document.querySelector('.down-d').value),
+              numDown = Number(document.querySelector('.num-down').value),
+              L = (l + w) * 2 - 800 + 1.9 * guD * 2 + Math.max(5 * guD, 75) * 2,
+              N = num * Math.ceil((netL - endBase) / space + 1),
+              upL = ((netL - endBase) + (endBase - protectLayer + 15 * upD) * 2) * num * numUp,
+              downL = (netL - endBase + 12 * downD * 2) * num * numDown;
+          var pEle = document.createElement('p'),
+              br = document.createElement('br');
+          document.body.appendChild(br);
+          pEle.innerHTML = "L" + count + "：" + num + "根.       " + l + "x" + w;
+          document.body.appendChild(pEle);
+          pEle = document.createElement('p');
+          pEle.innerHTML = '箍：Ω' + guD + "@" + space;
+          document.body.appendChild(pEle);
+          pEle = document.createElement('p');
+          pEle.innerHTML = "L=(" + l + "+" + w + ")x2-800+1.9x" + guD + "x2+max(5x" + guD + ",75)x2=" + L;
+          document.body.appendChild(pEle);
+          pEle = document.createElement('p');
+          pEle.innerHTML = "N=" + num + "x[(" + netL + "-" + endBase + ")/" + space + "+1]=" + N;
+          document.body.appendChild(pEle);
+          pEle = document.createElement('p');
+          pEle.innerHTML = "上部：" + numUp +  " Ω" + upD;
+          document.body.appendChild(pEle);
+          pEle = document.createElement('p');
+          pEle.innerHTML = "L=[" + netL + "-" + endBase + "+(" + endBase + "-" + protectLayer + "+15x" + upD + ")x2]x" + num + "x" + numUp + "=" + upL;
+          document.body.appendChild(pEle);
+          pEle = document.createElement('p');
+          pEle.innerHTML = "下部：" + numDown +  " Ω" + downD;
+          document.body.appendChild(pEle);
+          pEle = document.createElement('p');
+          pEle.innerHTML = "L=(" + netL + "-" + endBase + "+12x" + downD + "x2)x" + num + "x" + numDown + "=" + downL;
+          document.body.appendChild(pEle);
+          document.body.appendChild(br);
+        };
+      };
+    </script>
+  </body>
+</html>
